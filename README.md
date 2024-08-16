@@ -1,7 +1,6 @@
-# 💬 Multithread Chatbot
+# 🎈 Multithread Chatbot
 
 A simple multithread chatbot using OpenAI's GPT LLM.
-
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://multithread-chatbot.streamlit.app/)
 
