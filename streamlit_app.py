@@ -37,16 +37,18 @@ EMOJI_LIST = [
 ]
  
 # Sidebar header
-st.sidebar.header("Created by: 0xjdavis")
-st.sidebar.subheader("🇺🇸 Available for new projects!")
-st.sidebar.markdown('<a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</button></a>', unsafe_allow_html=True)
-st.sidebar.caption("©️ Copyright 2024 J. Davis")
+st.sidebar.header("About App")
+st.sidebar.subheader("Built by: 0xjdavis")
+st.write(
+    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys)."
+)
+st.sidebar.write("")
+st.sidebar.markdown('<center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</button></a></center>', unsafe_allow_html=True)
 
 # Show title and description.
 st.title("Multi-User Chatbot")
 st.write(
     "This is a multi-user chatroom where one participant is an AI chatbot. "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys)."
 )
 
 # Ask user for their OpenAI API key.
@@ -58,7 +60,7 @@ else:
     client = OpenAI(api_key=openai_api_key)
 
     # Ask user for their username.
-    username = st.text_input("Enter your username:")
+    username = st.sidebar.text_input("Enter your username:")
     if not username:
         st.sidebar.info("Please enter a username to continue.", icon="🗣️")
     else:
@@ -125,6 +127,9 @@ else:
                     </div>
                 </div>
             """, unsafe_allow_html=True)
+
+        # Copyright
+        st.sidebar.caption("©️ Copyright 2024 J. Davis")
 
         # Auto-refresh the chat every few seconds to show new messages.
         while True:
