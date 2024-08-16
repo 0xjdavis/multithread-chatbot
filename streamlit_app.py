@@ -42,8 +42,6 @@ st.sidebar.subheader("Built by: 0xjdavis")
 st.sidebar.write(
     "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys)."
 )
-st.sidebar.markdown('<center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</button></a></center>', unsafe_allow_html=True)
-
 # Show title and description.
 st.title("Multi-User Chatbot")
 st.write(
@@ -126,13 +124,18 @@ else:
                     </div>
                 </div>
             """, unsafe_allow_html=True)
+            
+        # Calendly
+        st.sidebar.markdown('<center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</button></a></center>', unsafe_allow_html=True)
 
         # Copyright
         st.sidebar.caption("©️ Copyright 2024 J. Davis")
-
+        
         # Auto-refresh the chat every few seconds to show new messages.
         while True:
             time.sleep(UPDATE_INTERVAL)
             new_messages = read_chat_history()
             if new_messages != chatroom_messages:
                 st.rerun()
+
+        
