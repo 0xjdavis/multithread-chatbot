@@ -28,4 +28,22 @@ else:
     # Create a chat input field for user input.
     if prompt := st.chat_input("What's on your mind?"):
         # Store and display the current prompt.
- 
+        st.session_state.chatroom_messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        # Generate a response using the OpenAI API.
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": m["role"], "content": m["content"]}
+                for m in st.session_state.chatroom_messages
+            ],
+        )
+
+        # Extract the assistant's response from the OpenAI response object.
+        assistant_message = response.choices[0].message.content
+
+        # Store and display the bot's response.
+        st.session_state.chatroom_messages.append({"role": "assistant", "content": assistant_message})
+        with st.chat_message("
