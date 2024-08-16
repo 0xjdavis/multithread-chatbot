@@ -32,12 +32,12 @@ def generate_user_icon(username):
 
 # List of emojis to use
 EMOJI_LIST = [
-    "🙂", "😎", "🤓", "😇", "😂", "😍", "🤡", "😃", "😅", "😎", 
+    "🙂", "😎", "🤓", "😇", "😂", "😍", "🥳", "😃", "😅", "😎", 
     "😜", "🤗", "🤔", "😴", "😱", "😡", "🤠", "😈", "😇", "👻"
 ]
 
 # Show title and description.
-st.title("Multi-User Chatbot")
+st.title("💬 Multi-User Chatbot")
 st.write(
     "This is a multi-user chatroom where one participant is an AI chatbot. "
     "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys)."
@@ -64,8 +64,14 @@ else:
 
         # Display all chatroom messages.
         for message in chatroom_messages:
-            with st.chat_message(message["role"]):
-                st.markdown(f"{message['icon']} {message['content']}")
+            try:
+                # Ensure the message contains the 'icon' and 'content' fields
+                icon = message.get("icon", "👤")  # Default to a generic icon if not present
+                content = message.get("content", "")
+                with st.chat_message(message.get("role", "user")):
+                    st.markdown(f"{icon} {content}")
+            except Exception as e:
+                st.error(f"Error displaying message: {e}")
 
         # Create a chat input field for user input.
         if prompt := st.chat_input("What's on your mind?"):
