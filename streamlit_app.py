@@ -36,10 +36,17 @@ EMOJI_LIST = [
     "😜", "🤗", "🤔", "😴", "😱", "😡", "🤠", "😈", "😇", "👻"
 ]
 
+# Setting page layout
+st.set_page_config(
+    page_title="Multithread Chatbot with OpenAI GPT 3.5",
+    page_icon="✨",
+    layout="centered",
+    initial_sidebar_state="expanded"
+)
+
 # Sidebar for API Key and User Info
 st.sidebar.header("About App")
-st.sidebar.write("This is a multithreaded chatbot with OpenAI GPT 3.5 capable of iteration created by 0xjdavis")
-
+st.sidebar.markdown('This is a multithreaded chatbot with OpenAI GPT 3.5 capable of iteration created by <a href="https://ai.jdavis.xyz" target="_blank">0xjdavis</a>.', unsafe_allow_html=True)
 
 openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 username = st.sidebar.text_input("Enter your username:")
@@ -58,7 +65,7 @@ else:
     chatroom_messages = read_chat_history()
 
     # Show title and description.
-    st.title("Multi-User Chatbot")
+    st.title("Multithread Chatbot with OpenAI GPT 3.5")
     st.write("This is a multi-user chatroom where one participant is an AI chatbot.")
 
     # Display all chatroom messages with user icons and tooltips
