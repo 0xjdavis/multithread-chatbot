@@ -46,4 +46,5 @@ else:
 
         # Store and display the bot's response.
         st.session_state.chatroom_messages.append({"role": "assistant", "content": assistant_message})
-        with st.chat_message("
+        with st.chat_message("assistant"):
+            st.markdown(assistant_message)
