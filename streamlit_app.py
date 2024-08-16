@@ -32,7 +32,7 @@ def generate_user_icon(username):
 
 # List of emojis to use
 EMOJI_LIST = [
-    "🙂", "😎", "🤓", "😇", "😂", "😍", "🥳", "😃", "😅", "😎", 
+    "🙂", "😎", "🤓", "😇", "😂", "😍", "🤡", "😃", "😅", "😎", 
     "😜", "🤗", "🤔", "😴", "😱", "😡", "🤠", "😈", "😇", "👻"
 ]
 
@@ -64,21 +64,33 @@ else:
 
         # Display all chatroom messages.
         for message in chatroom_messages:
-            try:
-                # Ensure the message contains the 'icon' and 'content' fields
-                icon = message.get("icon", "👤")  # Default to a generic icon if not present
-                content = message.get("content", "")
-                with st.chat_message(message.get("role", "user")):
-                    st.markdown(f"{icon} {content}")
-            except Exception as e:
-                st.error(f"Error displaying message: {e}")
+            icon = message.get("icon", "👤")
+            content = message.get("content", "")
+            role = message.get("role", "user")
+
+            # Format the chat display with the emoji as an icon
+            st.markdown(f"""
+                <div style="display: flex; align-items: center;">
+                    <span style="font-size: 24px; margin-right: 8px;">{icon}</span>
+                    <div style="background-color: {'#f1f1f1' if role == 'user' else '#e1f5fe'}; padding: 8px; border-radius: 8px;">
+                        {content}
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
 
         # Create a chat input field for user input.
         if prompt := st.chat_input("What's on your mind?"):
             # Add the user's message to the chat history and display it.
-            chatroom_messages.append({"role": "user", "icon": user_icon, "content": f"{user_icon} {prompt}"})
+            chatroom_messages.append({"role": "user", "icon": user_icon, "content": f"{prompt}"})
             with st.chat_message("user"):
-                st.markdown(f"{user_icon} {prompt}")
+                st.markdown(f"""
+                    <div style="display: flex; align-items: center;">
+                        <span style="font-size: 24px; margin-right: 8px;">{user_icon}</span>
+                        <div style="background-color: #f1f1f1; padding: 8px; border-radius: 8px;">
+                            {prompt}
+                        </div>
+                    </div>
+                """, unsafe_allow_html=True)
 
             # Write the updated chat history to the file.
             write_chat_history(chatroom_messages)
@@ -96,9 +108,16 @@ else:
             assistant_message = response.choices[0].message.content
 
             # Add the assistant's message to the chat history and display it.
-            chatroom_messages.append({"role": "assistant", "icon": "🤖", "content": f"🤖 {assistant_message}"})
+            chatroom_messages.append({"role": "assistant", "icon": "🤖", "content": f"{assistant_message}"})
             with st.chat_message("assistant"):
-                st.markdown(f"🤖 {assistant_message}")
+                st.markdown(f"""
+                    <div style="display: flex; align-items: center;">
+                        <span style="font-size: 24px; margin-right: 8px;">🤖</span>
+                        <div style="background-color: #e1f5fe; padding: 8px; border-radius: 8px;">
+                            {assistant_message}
+                        </div>
+                    </div>
+                """, unsafe_allow_html=True)
 
             # Write the updated chat history to the file.
             write_chat_history(chatroom_messages)
