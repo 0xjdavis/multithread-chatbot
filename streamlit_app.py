@@ -38,7 +38,7 @@ EMOJI_LIST = [
 
 # Sidebar for API Key and User Info
 st.sidebar.header("About App")
-st.sidebar.write("This is multithreaded chatbot with OpenAI GPT 3.5 created by 0xjdavis")
+st.sidebar.write("This is a multithreaded chatbot with OpenAI GPT 3.5 capable of iteration created by 0xjdavis")
 
 
 openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
