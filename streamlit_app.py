@@ -38,12 +38,12 @@ EMOJI_LIST = [
  
 # Sidebar header
 st.sidebar.header("Created by: 0xjdavis")
-st.sidebar.subheader(&copy; + "Copyright 2024")
-
-st.sidebar.markdown('🇺🇸 Available for new projects!<br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</a>', unsafe_allow_html=True)
+st.sidebar.subheader("🇺🇸 Available for new projects!")
+st.sidebar.markdown('<br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</a>', unsafe_allow_html=True)
+st.sidebar.caption("©️ Copyright 2024 J. Davis")
 
 # Show title and description.
-st.title("💬 Multi-User Chatbot")
+st.title("Multi-User Chatbot")
 st.write(
     "This is a multi-user chatroom where one participant is an AI chatbot. "
     "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys)."
