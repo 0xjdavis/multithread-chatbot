@@ -37,14 +37,15 @@ EMOJI_LIST = [
 ]
 
 # Sidebar for API Key and User Info
-st.sidebar.header("App Configuration")
-openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
-username = st.sidebar.text_input("Enter your username:")
+st.sidebar.header("About App")
+st.sidebar.write("This is multithreaded chatbot with OpenAI GPT 3.5 created by 0xjdavis")
 
 if not openai_api_key:
     st.sidebar.info("Please add your OpenAI API key to continue.", icon="🗝️")
+    openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 elif not username:
     st.sidebar.info("Please enter a username to continue.", icon="🗣️")
+    username = st.sidebar.text_input("Enter your username:")
 else:
     # Create an OpenAI client.
     client = OpenAI(api_key=openai_api_key)
