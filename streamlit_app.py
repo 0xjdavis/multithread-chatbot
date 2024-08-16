@@ -72,7 +72,7 @@ else:
         st.markdown(f"""
             <div style="display: flex; align-items: center; margin-bottom: 8px;">
                 <div style="position: relative;">
-                    <span style="font-size: 24px; margin-right: 8px;" title="{sender_name}">{icon}</span>
+                    <span style="font-size: 24px; margin-right: 8px; cursor:pointer;" title="{sender_name}">{icon}</span>
                 </div>
                 <div style="background-color: {'#f1f1f1' if role == 'user' else '#e1f5fe'}; padding: 8px; border-radius: 8px;">
                     {content}
@@ -90,7 +90,7 @@ else:
         st.markdown(f"""
             <div style="display: flex; align-items: center; margin-bottom: 8px;">
                 <div style="position: relative;">
-                    <span style="font-size: 24px; margin-right: 8px;cursor: pointer;" alt="{username}" title="{username}">{user_icon}</span>
+                    <span style="font-size: 24px; margin-right: 8px; cursor: pointer;" title="{username}">{user_icon}</span>
                 </div>
                 <div style="background-color: #f1f1f1; padding: 8px; border-radius: 8px;">
                     {prompt}
@@ -118,7 +118,7 @@ else:
         st.markdown(f"""
             <div style="display: flex; align-items: center; margin-bottom: 8px;">
                 <div style="position: relative;">
-                    <span style="font-size: 24px; margin-right: 8px;" title="Assistant">🤖</span>
+                    <span style="font-size: 24px; margin-right: 8px; cursor:pointer;" title="Assistant">🤖</span>
                 </div>
                 <div style="background-color: #e1f5fe; padding: 8px; border-radius: 8px;">
                     {assistant_message}
