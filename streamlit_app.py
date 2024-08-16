@@ -42,9 +42,9 @@ st.sidebar.write("This is multithreaded chatbot with OpenAI GPT 3.5 created by 0
 
 
 openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+username = st.sidebar.text_input("Enter your username:")
 if not openai_api_key:
     st.sidebar.info("Please add your OpenAI API key to continue.", icon="🗝️")
-username = st.sidebar.text_input("Enter your username:")
 elif not username:
     st.sidebar.info("Please enter a username to continue.", icon="🗣️")
 else:
