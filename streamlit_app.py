@@ -3,6 +3,7 @@ from openai import OpenAI
 import json
 import os
 import hashlib
+import time
 
 CHAT_HISTORY_FILE = "chat_history.json"
 
