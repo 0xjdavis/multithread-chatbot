@@ -59,7 +59,7 @@ else:
     st.title("Multi-User Chatbot")
     st.write("This is a multi-user chatroom where one participant is an AI chatbot.")
 
-    # Display all chatroom messages with user icons.
+    # Display all chatroom messages with user icons and tooltips
     for message in chatroom_messages:
         icon = message.get("icon", "👤")
         content = message.get("content", "")
@@ -70,20 +70,12 @@ else:
         st.markdown(f"""
             <div style="display: flex; align-items: center; margin-bottom: 8px;">
                 <div style="position: relative;">
-                    <span style="font-size: 24px; margin-right: 8px;">{icon}</span>
-                    <div style="visibility: hidden; position: absolute; background: #000; color: #fff; padding: 4px 8px; border-radius: 4px; bottom: 120%; left: 50%; transform: translateX(-50%); white-space: nowrap;" class="tooltip">
-                        {sender_name}
-                    </div>
+                    <span style="font-size: 24px; margin-right: 8px;" title="{sender_name}">{icon}</span>
                 </div>
                 <div style="background-color: {'#f1f1f1' if role == 'user' else '#e1f5fe'}; padding: 8px; border-radius: 8px;">
                     {content}
                 </div>
             </div>
-            <style>
-                .tooltip:hover {{
-                    visibility: visible;
-                }}
-            </style>
         """, unsafe_allow_html=True)
 
     # Create a chat input field for user input.
@@ -96,20 +88,12 @@ else:
         st.markdown(f"""
             <div style="display: flex; align-items: center; margin-bottom: 8px;">
                 <div style="position: relative;">
-                    <span style="font-size: 24px; margin-right: 8px;">{user_icon}</span>
-                    <div style="visibility: hidden; position: absolute; background: #000; color: #fff; padding: 4px 8px; border-radius: 4px; bottom: 120%; left: 50%; transform: translateX(-50%); white-space: nowrap;" class="tooltip">
-                        {username}
-                    </div>
+                    <span style="font-size: 24px; margin-right: 8px;" title="{username}">{user_icon}</span>
                 </div>
                 <div style="background-color: #f1f1f1; padding: 8px; border-radius: 8px;">
                     {prompt}
                 </div>
             </div>
-            <style>
-                .tooltip:hover {{
-                    visibility: visible;
-                }}
-            </style>
         """, unsafe_allow_html=True)
 
         # Generate a response using the OpenAI API.
@@ -132,24 +116,16 @@ else:
         st.markdown(f"""
             <div style="display: flex; align-items: center; margin-bottom: 8px;">
                 <div style="position: relative;">
-                    <span style="font-size: 24px; margin-right: 8px;">🤖</span>
-                    <div style="visibility: hidden; position: absolute; background: #000; color: #fff; padding: 4px 8px; border-radius: 4px; bottom: 120%; left: 50%; transform: translateX(-50%); white-space: nowrap;" class="tooltip">
-                        Assistant
-                    </div>
+                    <span style="font-size: 24px; margin-right: 8px;" title="Assistant">🤖</span>
                 </div>
                 <div style="background-color: #e1f5fe; padding: 8px; border-radius: 8px;">
                     {assistant_message}
                 </div>
             </div>
-            <style>
-                .tooltip:hover {{
-                    visibility: visible;
-                }}
-            </style>
         """, unsafe_allow_html=True)
 
     # Calendly
-    st.sidebar.markdown('<br /><br /><br /><center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</button></a></center><br /><br /><br />', unsafe_allow_html=True)
+    st.sidebar.markdown('<br/><br/><br/><center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#126ff3;color:#fff;border-radius:3px;">Schedule a call</button></a></center><br/><br/><br/>', unsafe_allow_html=True)
 
     # Copyright
     st.sidebar.caption("©️ Copyright 2024 J. Davis")
