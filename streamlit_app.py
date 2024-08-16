@@ -127,7 +127,7 @@ else:
         """, unsafe_allow_html=True)
 
     # Calendly
-    st.sidebar.markdown('<div style="border-radius:8px;background:#fff";width:100%;"><br/><br/><center><span style="height:12px;width:12px;background-color:#77e0b5;border-radius:50%;display:inline-block;"></span> <b>Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#126ff3;color:#fff;border: 1px #126ff3 solid;border-radius:3px;">Schedule a call</button></a></center><br/><br/></div>', unsafe_allow_html=True)
+    st.sidebar.markdown('<div style="border-radius:8px;background:#fff";width:100%;"><br/><center><span style="height:12px;width:12px;background-color:#77e0b5;border-radius:50%;display:inline-block;"></span> <b>Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#126ff3;color:#fff;border: 1px #126ff3 solid;border-radius:3px;">Schedule a call</button></a></center><br/></div>', unsafe_allow_html=True)
 
     # Copyright
     st.sidebar.caption("©️ Copyright 2024 J. Davis")
