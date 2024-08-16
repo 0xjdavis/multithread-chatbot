@@ -1,8 +1,8 @@
-# 💬 Chatbot template
+# 💬 Multithread Chatbot
 
-A simple Streamlit app that shows how to build a chatbot using OpenAI's GPT-3.5.
+A simple multithread chatbot using OpenAI's GPT LLM.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://chatbot-template.streamlit.app/)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://multithread-chatbot.streamlit.app/)
 
 ### How to run it on your own machine
 
