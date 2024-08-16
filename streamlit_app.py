@@ -2,8 +2,10 @@ import streamlit as st
 from openai import OpenAI
 import json
 import os
+import time
 
 CHAT_HISTORY_FILE = "chat_history.json"
+UPDATE_INTERVAL = 1  # seconds
 
 # Initialize the chat history file if it doesn't exist
 if not os.path.exists(CHAT_HISTORY_FILE):
@@ -72,3 +74,13 @@ else:
 
         # Write the updated chat history to the file.
         write_chat_history(chatroom_messages)
+
+        # Rerun the app to update the chat display for all users.
+        st.rerun()
+
+    # Auto-refresh the chat every few seconds to show new messages.
+    while True:
+        time.sleep(UPDATE_INTERVAL)
+        new_messages = read_chat_history()
+        if new_messages != chatroom_messages:
+            st.rerun()
