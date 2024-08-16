@@ -39,7 +39,7 @@ EMOJI_LIST = [
 # Sidebar header
 st.sidebar.header("Created by: 0xjdavis")
 st.sidebar.subheader("🇺🇸 Available for new projects!")
-st.sidebar.markdown('<br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</a>', unsafe_allow_html=True)
+st.sidebar.markdown('<a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</button></a>', unsafe_allow_html=True)
 st.sidebar.caption("©️ Copyright 2024 J. Davis")
 
 # Show title and description.
