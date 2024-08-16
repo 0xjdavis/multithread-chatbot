@@ -35,6 +35,10 @@ EMOJI_LIST = [
     "🙂", "😎", "🤓", "😇", "😂", "😍", "🤡", "😃", "😅", "😎", 
     "😜", "🤗", "🤔", "😴", "😱", "😡", "🤠", "😈", "😇", "👻"
 ]
+ 
+# Sidebar header
+st.sidebar.header("Upload trash images or Videos :fire:")
+st.sidebar.subheader("Upload trash images or Videos :fire:")
 
 # Show title and description.
 st.title("💬 Multi-User Chatbot")
@@ -46,7 +50,7 @@ st.write(
 # Ask user for their OpenAI API key.
 openai_api_key = st.text_input("OpenAI API Key", type="password")
 if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
+    st.sidebar.info("Please add your OpenAI API key to continue.", icon="🗝️")
 else:
     # Create an OpenAI client.
     client = OpenAI(api_key=openai_api_key)
@@ -54,7 +58,7 @@ else:
     # Ask user for their username.
     username = st.text_input("Enter your username:")
     if not username:
-        st.info("Please enter a username to continue.", icon="🗣️")
+        st.sidebar.info("Please enter a username to continue.", icon="🗣️")
     else:
         # Generate a unique icon for the user.
         user_icon = generate_user_icon(username)
