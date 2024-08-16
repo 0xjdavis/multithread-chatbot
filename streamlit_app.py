@@ -128,6 +128,7 @@ else:
 
     # Calendly
     st.sidebar.markdown("""
+        <hr />
         <div style="border-radius:8px;padding:8px;background:#fff";width:100%;">
         <center>
         <span style="height:12px;width:12px;background-color:#77e0b5;border-radius:50%;display:inline-block;"></span> <b>I'm available for new projects!</b><br />
