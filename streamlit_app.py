@@ -2,10 +2,11 @@ import streamlit as st
 from openai import OpenAI
 import json
 import os
-import hashlib
 import time
+import hashlib
 
 CHAT_HISTORY_FILE = "chat_history.json"
+UPDATE_INTERVAL = 1  # seconds
 
 # Initialize the chat history file if it doesn't exist
 if not os.path.exists(CHAT_HISTORY_FILE):
@@ -31,7 +32,7 @@ def generate_user_icon(username):
 
 # List of emojis to use
 EMOJI_LIST = [
-    "🙂", "😎", "🤓", "😇", "😂", "😍", "🥳", "😃", "😅", "😎", 
+    "🙂", "😎", "🤓", "😇", "😂", "😍", "🤡", "😃", "😅", "😎", 
     "😜", "🤗", "🤔", "😴", "😱", "😡", "🤠", "😈", "😇", "👻"
 ]
 
@@ -57,45 +58,41 @@ else:
     else:
         # Generate a unique icon for the user.
         user_icon = generate_user_icon(username)
-        if 'user_icon' not in st.session_state:
-            st.session_state.user_icon = user_icon
 
         # Load the chat history from the file.
         chatroom_messages = read_chat_history()
-        
+
         # Display all chatroom messages.
-        chat_display = st.empty()  # Placeholder for chat display
-        with chat_display:
-            for message in chatroom_messages:
-                icon = message.get("icon", "👤")
-                content = message.get("content", "")
-                role = message.get("role", "user")
-                # Format the chat display with the emoji as an icon
-                st.markdown(f"""
-                    <div style="display: flex; align-items: center;">
-                        <span style="font-size: 24px; margin-right: 8px;">{icon}</span>
-                        <div style="background-color: {'#f1f1f1' if role == 'user' else '#e1f5fe'}; padding: 8px; border-radius: 8px;">
-                            {content}
-                        </div>
+        for message in chatroom_messages:
+            icon = message.get("icon", "👤")
+            content = message.get("content", "")
+            role = message.get("role", "user")
+
+            # Format the chat display with the emoji as an icon
+            st.markdown(f"""
+                <div style="display: flex; align-items: center;">
+                    <span style="font-size: 24px; margin-right: 8px;">{icon}</span>
+                    <div style="background-color: {'#f1f1f1' if role == 'user' else '#e1f5fe'}; padding: 8px; border-radius: 8px;">
+                        {content}
                     </div>
-                """, unsafe_allow_html=True)
+                </div>
+            """, unsafe_allow_html=True)
 
         # Create a chat input field for user input.
         if prompt := st.chat_input("What's on your mind?"):
             # Add the user's message to the chat history and display it.
-            chatroom_messages.append({"role": "user", "icon": st.session_state.user_icon, "content": f"{prompt}"})
+            chatroom_messages.append({"role": "user", "icon": user_icon, "content": f"{prompt}"})
             write_chat_history(chatroom_messages)
-            
-            # Display the new message
-            with chat_display:
-                st.markdown(f"""
-                    <div style="display: flex; align-items: center;">
-                        <span style="font-size: 24px; margin-right: 8px;">{st.session_state.user_icon}</span>
-                        <div style="background-color: #f1f1f1; padding: 8px; border-radius: 8px;">
-                            {prompt}
-                        </div>
+
+            # Display the user's message immediately
+            st.markdown(f"""
+                <div style="display: flex; align-items: center;">
+                    <span style="font-size: 24px; margin-right: 8px;">{user_icon}</span>
+                    <div style="background-color: #f1f1f1; padding: 8px; border-radius: 8px;">
+                        {prompt}
                     </div>
-                """, unsafe_allow_html=True)
+                </div>
+            """, unsafe_allow_html=True)
 
             # Generate a response using the OpenAI API.
             response = client.chat.completions.create(
@@ -105,40 +102,27 @@ else:
                     for m in chatroom_messages
                 ],
             )
+
+            # Extract the assistant's response from the OpenAI response object.
             assistant_message = response.choices[0].message.content
-            
+
             # Add the assistant's message to the chat history and display it.
             chatroom_messages.append({"role": "assistant", "icon": "🤖", "content": f"{assistant_message}"})
             write_chat_history(chatroom_messages)
-            
-            # Display the assistant's message
-            with chat_display:
-                st.markdown(f"""
-                    <div style="display: flex; align-items: center;">
-                        <span style="font-size: 24px; margin-right: 8px;">🤖</span>
-                        <div style="background-color: #e1f5fe; padding: 8px; border-radius: 8px;">
-                            {assistant_message}
-                        </div>
+
+            # Display the assistant's message immediately
+            st.markdown(f"""
+                <div style="display: flex; align-items: center;">
+                    <span style="font-size: 24px; margin-right: 8px;">🤖</span>
+                    <div style="background-color: #e1f5fe; padding: 8px; border-radius: 8px;">
+                        {assistant_message}
                     </div>
-                """, unsafe_allow_html=True)
+                </div>
+            """, unsafe_allow_html=True)
 
         # Auto-refresh the chat every few seconds to show new messages.
         while True:
-            time.sleep(1)
+            time.sleep(UPDATE_INTERVAL)
             new_messages = read_chat_history()
             if new_messages != chatroom_messages:
-                chatroom_messages = new_messages
-                with chat_display:
-                    st.empty()
-                    for message in chatroom_messages:
-                        icon = message.get("icon", "👤")
-                        content = message.get("content", "")
-                        role = message.get("role", "user")
-                        st.markdown(f"""
-                            <div style="display: flex; align-items: center;">
-                                <span style="font-size: 24px; margin-right: 8px;">{icon}</span>
-                                <div style="background-color: {'#f1f1f1' if role == 'user' else '#e1f5fe'}; padding: 8px; border-radius: 8px;">
-                                    {content}
-                                </div>
-                            </div>
-                        """, unsafe_allow_html=True)
+                st.rerun()
