@@ -35,107 +35,97 @@ EMOJI_LIST = [
     "🙂", "😎", "🤓", "😇", "😂", "😍", "🤡", "😃", "😅", "😎", 
     "😜", "🤗", "🤔", "😴", "😱", "😡", "🤠", "😈", "😇", "👻"
 ]
- 
-# Sidebar header
-st.sidebar.header("About App")
-st.sidebar.subheader("Built by: 0xjdavis")
-st.sidebar.write(
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys)."
-)
-# Show title and description.
-st.title("Multi-User Chatbot")
-st.write(
-    "This is a multi-user chatroom where one participant is an AI chatbot."
-)
 
-# Ask user for their OpenAI API key.
-openai_api_key = st.text_input("OpenAI API Key", type="password")
+# Sidebar for API Key and User Info
+st.sidebar.header("App Configuration")
+openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+username = st.sidebar.text_input("Enter your username:")
+
 if not openai_api_key:
     st.sidebar.info("Please add your OpenAI API key to continue.", icon="🗝️")
+elif not username:
+    st.sidebar.info("Please enter a username to continue.", icon="🗣️")
 else:
     # Create an OpenAI client.
     client = OpenAI(api_key=openai_api_key)
 
-    # Ask user for their username.
-    username = st.sidebar.text_input("Enter your username:")
-    if not username:
-        st.sidebar.info("Please enter a username to continue.", icon="🗣️")
-    else:
-        # Generate a unique icon for the user.
-        user_icon = generate_user_icon(username)
+    # Generate a unique icon for the user.
+    user_icon = generate_user_icon(username)
 
-        # Load the chat history from the file.
-        chatroom_messages = read_chat_history()
+    # Load the chat history from the file.
+    chatroom_messages = read_chat_history()
 
-        # Display all chatroom messages.
-        for message in chatroom_messages:
-            icon = message.get("icon", "👤")
-            content = message.get("content", "")
-            role = message.get("role", "user")
+    # Show title and description.
+    st.title("Multi-User Chatbot")
+    st.write("This is a multi-user chatroom where one participant is an AI chatbot.")
 
-            # Format the chat display with the emoji as an icon
-            st.markdown(f"""
-                <div style="display: flex; align-items: center;">
-                    <span style="font-size: 24px; margin-right: 8px;">{icon}</span>
-                    <div style="background-color: {'#f1f1f1' if role == 'user' else '#e1f5fe'}; padding: 8px; border-radius: 8px;">
-                        {content}
-                    </div>
+    # Display all chatroom messages.
+    for message in chatroom_messages:
+        icon = message.get("icon", "👤")
+        content = message.get("content", "")
+        role = message.get("role", "user")
+
+        # Format the chat display with the emoji as an icon
+        st.markdown(f"""
+            <div style="display: flex; align-items: center;">
+                <span style="font-size: 24px; margin-right: 8px;">{icon}</span>
+                <div style="background-color: {'#f1f1f1' if role == 'user' else '#e1f5fe'}; padding: 8px; border-radius: 8px;">
+                    {content}
                 </div>
-            """, unsafe_allow_html=True)
+            </div>
+        """, unsafe_allow_html=True)
 
-        # Create a chat input field for user input.
-        if prompt := st.chat_input("What's on your mind?"):
-            # Add the user's message to the chat history and display it.
-            chatroom_messages.append({"role": "user", "icon": user_icon, "content": f"{prompt}"})
-            write_chat_history(chatroom_messages)
+    # Create a chat input field for user input.
+    if prompt := st.chat_input("What's on your mind?"):
+        # Add the user's message to the chat history and display it.
+        chatroom_messages.append({"role": "user", "icon": user_icon, "content": f"{prompt}"})
+        write_chat_history(chatroom_messages)
 
-            # Display the user's message immediately
-            st.markdown(f"""
-                <div style="display: flex; align-items: center;">
-                    <span style="font-size: 24px; margin-right: 8px;">{user_icon}</span>
-                    <div style="background-color: #f1f1f1; padding: 8px; border-radius: 8px;">
-                        {prompt}
-                    </div>
+        # Display the user's message immediately
+        st.markdown(f"""
+            <div style="display: flex; align-items: center;">
+                <span style="font-size: 24px; margin-right: 8px;">{user_icon}</span>
+                <div style="background-color: #f1f1f1; padding: 8px; border-radius: 8px;">
+                    {prompt}
                 </div>
-            """, unsafe_allow_html=True)
+            </div>
+        """, unsafe_allow_html=True)
 
-            # Generate a response using the OpenAI API.
-            response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": m["role"], "content": m["content"]}
-                    for m in chatroom_messages
-                ],
-            )
+        # Generate a response using the OpenAI API.
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": m["role"], "content": m["content"]}
+                for m in chatroom_messages
+            ],
+        )
 
-            # Extract the assistant's response from the OpenAI response object.
-            assistant_message = response.choices[0].message.content
+        # Extract the assistant's response from the OpenAI response object.
+        assistant_message = response.choices[0].message.content
 
-            # Add the assistant's message to the chat history and display it.
-            chatroom_messages.append({"role": "assistant", "icon": "🤖", "content": f"{assistant_message}"})
-            write_chat_history(chatroom_messages)
+        # Add the assistant's message to the chat history and display it.
+        chatroom_messages.append({"role": "assistant", "icon": "🤖", "content": f"{assistant_message}"})
+        write_chat_history(chatroom_messages)
 
-            # Display the assistant's message immediately
-            st.markdown(f"""
-                <div style="display: flex; align-items: center;">
-                    <span style="font-size: 24px; margin-right: 8px;">🤖</span>
-                    <div style="background-color: #e1f5fe; padding: 8px; border-radius: 8px;">
-                        {assistant_message}
-                    </div>
+        # Display the assistant's message immediately
+        st.markdown(f"""
+            <div style="display: flex; align-items: center;">
+                <span style="font-size: 24px; margin-right: 8px;">🤖</span>
+                <div style="background-color: #e1f5fe; padding: 8px; border-radius: 8px;">
+                    {assistant_message}
                 </div>
-            """, unsafe_allow_html=True)
-            
-        # Calendly
-        st.sidebar.markdown('<center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</button></a></center>', unsafe_allow_html=True)
+            </div>
+        """, unsafe_allow_html=True)
 
-        # Copyright
-        st.sidebar.caption("©️ Copyright 2024 J. Davis")
-        
-        # Auto-refresh the chat every few seconds to show new messages.
-        while True:
-            time.sleep(UPDATE_INTERVAL)
-            new_messages = read_chat_history()
-            if new_messages != chatroom_messages:
-                st.rerun()
+    # Calendly
+    st.sidebar.markdown('<center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</button></a></center>', unsafe_allow_html=True)
 
-        
+    # Copyright
+    st.sidebar.caption("©️ Copyright 2024 J. Davis")
+    
+    # Auto-refresh the chat every few seconds to show new messages.
+    while True:
+        time.sleep(UPDATE_INTERVAL)
+        new_messages = read_chat_history()
+        if new_messages != chatroom_messages:
+            st.rerun()
