@@ -88,7 +88,7 @@ else:
         st.markdown(f"""
             <div style="display: flex; align-items: center; margin-bottom: 8px;">
                 <div style="position: relative;">
-                    <span style="font-size: 24px; margin-right: 8px;" title="{username}">{user_icon}</span>
+                    <span style="font-size: 24px; margin-right: 8px;" alt="{username}" title="{username}">{user_icon}</span>
                 </div>
                 <div style="background-color: #f1f1f1; padding: 8px; border-radius: 8px;">
                     {prompt}
@@ -125,7 +125,7 @@ else:
         """, unsafe_allow_html=True)
 
     # Calendly
-    st.sidebar.markdown('<br/><br/><br/><center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#126ff3;color:#fff;border-radius:3px;">Schedule a call</button></a></center><br/><br/><br/>', unsafe_allow_html=True)
+    st.sidebar.markdown('<br/><br/><br/><center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#126ff3;color:#fff;border: 1px #126ff3 solid;border-radius:3px;">Schedule a call</button></a></center><br/><br/><br/>', unsafe_allow_html=True)
 
     # Copyright
     st.sidebar.caption("©️ Copyright 2024 J. Davis")
