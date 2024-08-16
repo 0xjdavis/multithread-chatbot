@@ -37,8 +37,10 @@ EMOJI_LIST = [
 ]
  
 # Sidebar header
-st.sidebar.header("Upload trash images or Videos :fire:")
-st.sidebar.subheader("Upload trash images or Videos :fire:")
+st.sidebar.header("Created by: 0xjdavis")
+st.sidebar.subheader(&copy; + "Copyright 2024")
+
+st.sidebar.markdown('🇺🇸 Available for new projects!<br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</a>', unsafe_allow_html=True)
 
 # Show title and description.
 st.title("💬 Multi-User Chatbot")
