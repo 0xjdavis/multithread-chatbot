@@ -59,36 +59,57 @@ else:
     st.title("Multi-User Chatbot")
     st.write("This is a multi-user chatroom where one participant is an AI chatbot.")
 
-    # Display all chatroom messages.
+    # Display all chatroom messages with user icons.
     for message in chatroom_messages:
         icon = message.get("icon", "👤")
         content = message.get("content", "")
         role = message.get("role", "user")
+        sender_name = message.get("sender_name", "")
 
-        # Format the chat display with the emoji as an icon
+        # Format the chat display with hover effect for the icon
         st.markdown(f"""
-            <div style="display: flex; align-items: center;">
-                <span style="font-size: 24px; margin-right: 8px;">{icon}</span>
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                <div style="position: relative;">
+                    <span style="font-size: 24px; margin-right: 8px;">{icon}</span>
+                    <div style="visibility: hidden; position: absolute; background: #000; color: #fff; padding: 4px 8px; border-radius: 4px; bottom: 120%; left: 50%; transform: translateX(-50%); white-space: nowrap;" class="tooltip">
+                        {sender_name}
+                    </div>
+                </div>
                 <div style="background-color: {'#f1f1f1' if role == 'user' else '#e1f5fe'}; padding: 8px; border-radius: 8px;">
                     {content}
                 </div>
             </div>
+            <style>
+                .tooltip:hover {{
+                    visibility: visible;
+                }}
+            </style>
         """, unsafe_allow_html=True)
 
     # Create a chat input field for user input.
     if prompt := st.chat_input("What's on your mind?"):
         # Add the user's message to the chat history and display it.
-        chatroom_messages.append({"role": "user", "icon": user_icon, "content": f"{prompt}"})
+        chatroom_messages.append({"role": "user", "icon": user_icon, "content": f"{prompt}", "sender_name": username})
         write_chat_history(chatroom_messages)
 
         # Display the user's message immediately
         st.markdown(f"""
-            <div style="display: flex; align-items: center;">
-                <span style="font-size: 24px; margin-right: 8px;">{user_icon}</span>
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                <div style="position: relative;">
+                    <span style="font-size: 24px; margin-right: 8px;">{user_icon}</span>
+                    <div style="visibility: hidden; position: absolute; background: #000; color: #fff; padding: 4px 8px; border-radius: 4px; bottom: 120%; left: 50%; transform: translateX(-50%); white-space: nowrap;" class="tooltip">
+                        {username}
+                    </div>
+                </div>
                 <div style="background-color: #f1f1f1; padding: 8px; border-radius: 8px;">
                     {prompt}
                 </div>
             </div>
+            <style>
+                .tooltip:hover {{
+                    visibility: visible;
+                }}
+            </style>
         """, unsafe_allow_html=True)
 
         # Generate a response using the OpenAI API.
@@ -109,16 +130,26 @@ else:
 
         # Display the assistant's message immediately
         st.markdown(f"""
-            <div style="display: flex; align-items: center;">
-                <span style="font-size: 24px; margin-right: 8px;">🤖</span>
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                <div style="position: relative;">
+                    <span style="font-size: 24px; margin-right: 8px;">🤖</span>
+                    <div style="visibility: hidden; position: absolute; background: #000; color: #fff; padding: 4px 8px; border-radius: 4px; bottom: 120%; left: 50%; transform: translateX(-50%); white-space: nowrap;" class="tooltip">
+                        Assistant
+                    </div>
+                </div>
                 <div style="background-color: #e1f5fe; padding: 8px; border-radius: 8px;">
                     {assistant_message}
                 </div>
             </div>
+            <style>
+                .tooltip:hover {{
+                    visibility: visible;
+                }}
+            </style>
         """, unsafe_allow_html=True)
 
     # Calendly
-    st.sidebar.markdown('<center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</button></a></center>', unsafe_allow_html=True)
+    st.sidebar.markdown('<br /><br /><br /><center><b>🇺🇸 Available for new projects!</b><br /><a href="https://calendly.com/0xjavis" target="_blank"><button style="background:#000;color:#fff;border-radius:3px;">Schedule a call</button></a></center><br /><br /><br />', unsafe_allow_html=True)
 
     # Copyright
     st.sidebar.caption("©️ Copyright 2024 J. Davis")
